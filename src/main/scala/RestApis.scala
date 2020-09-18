@@ -19,7 +19,7 @@ class RestApis {
           StatusCodes.OK,
           entity = HttpEntity(
             ContentTypes.`application/json`,
-            s"{message:Hello $name}")
+            s"{message:Hello from $name}")
         ))
       }
     }
