@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat
+import java.util.Calendar
+
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpResponse, StatusCodes}
@@ -22,9 +25,19 @@ class RestApis {
             s"{message:Hello $name}")
         ))
       }
+    } ~
+    path("date") {
+      get {
+        val dateFormat = new SimpleDateFormat("d-M-y")
+        val date = dateFormat.format(Calendar.getInstance().getTime())
+        complete(HttpResponse(
+          StatusCodes.OK,
+          entity = HttpEntity(
+            ContentTypes.`application/json`,
+            s"{date:$date}")
+        ))
+      }
     }
-
-
 }
 
 object RestApis {
