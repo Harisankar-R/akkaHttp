@@ -14,3 +14,5 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http-testkit" % AkkaHttpVersion,
   "org.scalatest" %% "scalatest" % "3.2.0" % "test"
 )
+mainClass in assembly := Some("RestApis")
+assemblyJarName in assembly := "akka-http-apis.jar"
