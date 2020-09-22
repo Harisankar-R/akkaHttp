@@ -27,3 +27,11 @@ pipelines:
                     command: sbt
                     arguments:
                       - assembly
+      - dockerize:
+          jobs:
+            dockerize-and-push-to-local:
+              tasks:
+                - exec:
+                    command: sbt
+                    arguments:
+                      - docker:publishLocal

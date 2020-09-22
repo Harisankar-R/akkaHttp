@@ -5,6 +5,7 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.server.Directives._
+import org.slf4j.LoggerFactory
 
 import scala.util.Properties
 
@@ -33,7 +34,9 @@ object RestApis {
 
     implicit val system = ActorSystem("RestApis")
     val restApis = new RestApis
-    val port = Properties.envOrElse("PORT","8080").toInt
+    val port = Properties.envOrElse("PORT", "8080").toInt
+    val logger = LoggerFactory.getLogger("AkkaHttpApi")
+    logger.info(s"starting server at $port")
     Http().newServerAt("localhost", port).bind(restApis.routes)
 
   }
