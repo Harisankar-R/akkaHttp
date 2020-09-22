@@ -3,39 +3,27 @@ import java.util.Calendar
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpResponse, StatusCodes}
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.server.Directives._
 
-class RestApis {
+import scala.util.Properties
+
+class RestApis extends SprayJsonSupport {
   val routes = path("health") {
     get {
-      complete(
-        HttpResponse(StatusCodes.OK, entity = HttpEntity(
-          ContentTypes.`application/json`,
-          "{Status:OK}"
-        )))
+      complete("{Status:OK}")
     }
   } ~
     path("greet" / Segment) { (name: String) =>
       get {
-        complete(HttpResponse(
-          StatusCodes.OK,
-          entity = HttpEntity(
-            ContentTypes.`application/json`,
-            s"{message:Hello $name}")
-        ))
+        complete(s"{message:Hello $name}")
       }
     } ~
     path("date") {
       get {
         val dateFormat = new SimpleDateFormat("d-M-y")
-        val date = dateFormat.format(Calendar.getInstance().getTime())
-        complete(HttpResponse(
-          StatusCodes.OK,
-          entity = HttpEntity(
-            ContentTypes.`application/json`,
-            s"{date:$date}")
-        ))
+        val date = dateFormat.format(Calendar.getInstance().getTime)
+        complete(s"{date:$date}")
       }
     }
 }
@@ -45,7 +33,8 @@ object RestApis {
 
     implicit val system = ActorSystem("RestApis")
     val restApis = new RestApis
-    Http().newServerAt("localhost", 8080).bind(restApis.routes)
+    val port = Properties.envOrElse("PORT","8080").toInt
+    Http().newServerAt("localhost", port).bind(restApis.routes)
 
   }
 }

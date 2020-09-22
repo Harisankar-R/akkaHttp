@@ -1,0 +1,29 @@
+format_version: 9
+pipelines:
+  akkaHttpPipelineYaml:
+    group: defaultGroup
+    materials:
+      gitRepo:
+        git: https://github.com/Harisankar-R/akkaHttp
+        branch: master
+    stages:
+      - test:
+          jobs:
+            run-unit-test:
+              tasks:
+                - exec:
+                    command: sbt
+                    arguments:
+                      - test
+      - build:
+          jobs:
+            build-jar:
+              artifacts:
+                - build:
+                    source: target/scala-2.12/akka-http-apis.jar
+                    destination: ""
+              tasks:
+                - exec:
+                    command: sbt
+                    arguments:
+                      - assembly
