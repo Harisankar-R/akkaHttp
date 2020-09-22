@@ -1,4 +1,4 @@
-import scala.util.Properties
+
 
 name := "akkaHttp"
 
@@ -8,7 +8,6 @@ scalaVersion := "2.12.12"
 
 val AkkaVersion = "2.6.8"
 val AkkaHttpVersion = "10.2.0"
-val port = Properties.envOrElse("PORT", "8080").toInt
 enablePlugins(JavaAppPackaging)
 enablePlugins(DockerPlugin)
 
@@ -29,4 +28,4 @@ assemblyJarName in assembly := "akka-http-apis.jar"
 packageName in Docker := packageName.value
 version in Docker := version.value
 dockerBaseImage := "openjdk"
-dockerExposedPorts := Seq(port)
+dockerExposedPorts := Seq(8080)
