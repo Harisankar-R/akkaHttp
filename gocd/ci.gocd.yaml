@@ -32,6 +32,24 @@ pipelines:
             dockerize-and-push-to-local:
               tasks:
                 - exec:
-                    command: sbt
+                    command: docker-compose
                     arguments:
-                      - docker:publishLocal
+                      - up
+      - run-kubernetes:
+          jobs:
+            run-k8-depolyment:
+              tasks:
+                - exec:
+                    command: kubectl
+                    arguments:
+                      - create
+                      - -f
+                      - akkahttp-deployment.yml
+            run-k8-service:
+              tasks:
+                - exec:
+                    command: kubectl
+                    arguments:
+                      - create
+                      - -f
+                      - akkahttp-service.yml

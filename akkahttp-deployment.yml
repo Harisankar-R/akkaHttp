@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: akkahttp-backend
+  labels:
+    tier: backend
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: akkaHttpApis
+      labels:
+        app: akkaHttpApp
+    spec:
+      containers:
+        - name: akkahttp
+          image: akkahttp_akka
+          imagePullPolicy: Never
+  selector:
+    matchLabels:
+      app: akkaHttpApp
