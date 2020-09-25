@@ -57,7 +57,7 @@ pipelines:
                     source: akkahttp-deployment.yml
                     destination: ""
                     pipeline: akkaHttpBuild
-                    stage: build
+                    stage: dockerize
                     job: dockerize-and-push-to-local
                     artifact_origin: gocd
                 - exec:
@@ -73,7 +73,7 @@ pipelines:
                     source: akkahttp-service.yml
                     destination: ""
                     pipeline: akkaHttpBuild
-                    stage: build
+                    stage: dockerize
                     job: dockerize-and-push-to-local
                     artifact_origin: gocd
                 - exec:
