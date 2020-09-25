@@ -31,6 +31,10 @@ pipelines:
       - dockerize:
           jobs:
             dockerize-and-push-to-local:
+              artifacts:
+                - build:
+                    source: ./akkahttp-*.yml
+                    destination: ""
               tasks:
                 - exec:
                     command: sbt
@@ -48,6 +52,14 @@ pipelines:
           jobs:
             run-k8-depolyment:
               tasks:
+                - fetch:
+                    is_file: true
+                    source: akkahttp-deployment.yml
+                    destination: ""
+                    pipeline: akkaHttpBuild
+                    stage: build
+                    job: dockerize-and-push-to-local
+                    artifact_origin: gocd
                 - exec:
                     command: kubectl
                     arguments:
@@ -56,6 +68,14 @@ pipelines:
                       - akkahttp-deployment.yml
             run-k8-service:
               tasks:
+                - fetch:
+                    is_file: true
+                    source: akkahttp-service.yml
+                    destination: ""
+                    pipeline: akkaHttpBuild
+                    stage: build
+                    job: dockerize-and-push-to-local
+                    artifact_origin: gocd
                 - exec:
                     command: kubectl
                     arguments:
