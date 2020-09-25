@@ -11,4 +11,5 @@ spec:
       targetPort: 8080
       nodePort: 30002
   selector:
-    app: akkaHttpApp
+    matchLabels:
+      app: akkaHttpApp

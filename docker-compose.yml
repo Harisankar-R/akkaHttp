@@ -2,5 +2,6 @@ version: '3'
 services:
   akka:
     build: .
+    image: akkahttp
     ports:
     - "8080:8080"

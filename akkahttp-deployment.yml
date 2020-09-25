@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: akkahttp
-          image: akkahttp_akka
+          image: akkahttp
           imagePullPolicy: Never
   selector:
     matchLabels:
