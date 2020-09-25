@@ -28,7 +28,7 @@ val httpService = (project in file(".")).settings(
   .enablePlugins(JavaAppPackaging)
   .enablePlugins(DockerPlugin)
 
-//packageName in Docker := packageName.value
-//version in Docker := version.value
-//dockerBaseImage := "openjdk"
-//dockerExposedPorts := Seq(8080)
+packageName in Docker := "akkahttp"
+version in Docker := "latest"
+dockerBaseImage := "openjdk"
+dockerExposedPorts := Seq(8080)

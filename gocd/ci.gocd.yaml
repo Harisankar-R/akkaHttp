@@ -1,6 +1,6 @@
 format_version: 9
 pipelines:
-  akkaHttpPipelineYaml:
+  akkaHttpBuild:
     group: defaultGroup
     materials:
       gitRepo:
@@ -26,23 +26,24 @@ pipelines:
                 - exec:
                     command: sbt
                     arguments:
+                      - clean
                       - assembly
       - dockerize:
           jobs:
             dockerize-and-push-to-local:
               tasks:
-                - fetch:
-                    is_file: true
-                    source: akka-http-apis.jar
-                    destination: ""
-                    pipeline: akkaHttpPipelineYaml
-                    stage: build
-                    job: build-jar
-                    artifact_origin: gocd
                 - exec:
-                    command: docker-compose
+                    command: sbt
                     arguments:
-                      - build
+                      - docker:publishLocal
+  akkaHttpDeploy:
+    group: defaultGroup
+    materials:
+      akkaHttpBuild:
+        ignore_for_scheduling: false
+        pipeline: akkaHttpBuild
+        stage: dockerize
+    stages:
       - run-kubernetes:
           jobs:
             run-k8-depolyment:
