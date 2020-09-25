@@ -33,7 +33,10 @@ pipelines:
             dockerize-and-push-to-local:
               artifacts:
                 - build:
-                    source: ./akkahttp-*.yml
+                    source: akkahttp-deployment.yml
+                    destination: ""
+                - build:
+                    source: akkahttp-service.yml
                     destination: ""
               tasks:
                 - exec:
