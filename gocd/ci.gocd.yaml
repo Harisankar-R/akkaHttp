@@ -31,10 +31,18 @@ pipelines:
           jobs:
             dockerize-and-push-to-local:
               tasks:
+                - fetch:
+                    is_file: true
+                    source: akka-http-apis.jar
+                    destination: ""
+                    pipeline: akkaHttpPipelineYaml
+                    stage: build
+                    job: build-jar
+                    artifact_origin: gocd
                 - exec:
                     command: docker-compose
                     arguments:
-                      - up
+                      - build
       - run-kubernetes:
           jobs:
             run-k8-depolyment:
